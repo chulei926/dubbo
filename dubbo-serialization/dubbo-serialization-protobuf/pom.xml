@@ -72,7 +72,7 @@ limitations under the License.
                     <!-- supports 'dubbo' and 'grpc' -->
                     <pluginParameter>dubbo</pluginParameter>
                 </configuration>
-                <executions>
+                <!-- <executions>
                     <execution>
                         <goals>
                             <goal>compile</goal>
@@ -81,7 +81,7 @@ limitations under the License.
                             <goal>test-compile-custom</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions> -->
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

@@ -85,6 +85,14 @@
         <system>Github Issues</system>
         <url>https://github.com/apache/dubbo/issues</url>
     </issueManagement>
+    
+    <repositories>
+        <repository>
+            <id>repo1-cache</id>
+            <name>repo1-cache</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+    </repositories>
 
     <properties>
         <!-- Test libs -->
@@ -551,7 +559,7 @@
                     <arguments>${arguments}</arguments>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
                 <version>${maven_flatten_version}</version>
@@ -575,7 +583,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
         </plugins>
 
         <pluginManagement>
