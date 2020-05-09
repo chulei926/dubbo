@@ -279,6 +279,9 @@ public class DubboProtocol extends AbstractProtocol {
 
     @Override
     public <T> Exporter<T> export(Invoker<T> invoker) throws RpcException {
+
+        System.out.println(">>>>> DubboProtocol.export >>> invoker: " + invoker.getInterface());
+
         URL url = invoker.getUrl();
 
         // export service.
@@ -301,7 +304,7 @@ public class DubboProtocol extends AbstractProtocol {
                 stubServiceMethodsMap.put(url.getServiceKey(), stubServiceMethods);
             }
         }
-
+        // 开启服务
         openServer(url);
         optimizeSerialization(url);
 
@@ -309,6 +312,7 @@ public class DubboProtocol extends AbstractProtocol {
     }
 
     private void openServer(URL url) {
+        System.out.println(">>>>> DubboProtocol.openServer >>> 开启服务: " + url);
         // find server.
         String key = url.getAddress();
         //client can export a service which's only for server to invoke
@@ -330,6 +334,7 @@ public class DubboProtocol extends AbstractProtocol {
     }
 
     private ProtocolServer createServer(URL url) {
+        System.out.println(">>>>> DubboProtocol.createServer >>> 创建服务: " + url);
         url = URLBuilder.from(url)
                 // send readonly event when server closes, it's enabled by default
                 .addParameterIfAbsent(CHANNEL_READONLYEVENT_SENT_KEY, Boolean.TRUE.toString())

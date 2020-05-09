@@ -332,8 +332,7 @@ public class ReferenceAnnotationBeanPostProcessor extends AbstractAnnotationBean
         return referenceBean;
     }
 
-    private void cacheInjectedReferenceBean(ReferenceBean referenceBean,
-                                            InjectionMetadata.InjectedElement injectedElement) {
+    private void cacheInjectedReferenceBean(ReferenceBean referenceBean, InjectionMetadata.InjectedElement injectedElement) {
         if (injectedElement.getMember() instanceof Field) {
             injectedFieldReferenceBeanCache.put(injectedElement, referenceBean);
         } else if (injectedElement.getMember() instanceof Method) {

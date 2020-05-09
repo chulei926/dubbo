@@ -21,7 +21,6 @@ import org.apache.dubbo.common.context.Lifecycle;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.apache.dubbo.config.DubboShutdownHook;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -43,55 +42,62 @@ import static org.springframework.beans.factory.BeanFactoryUtils.beansOfTypeIncl
  */
 public class DubboLifecycleComponentApplicationListener implements ApplicationListener {
 
-    @Override
-    public void onApplicationEvent(ApplicationEvent event) {
+	@Override
+	public void onApplicationEvent(ApplicationEvent event) {
 
-        if (!supportsEvent(event)) {
-            return;
-        }
+		if (!supportsEvent(event)) {
+			return;
+		}
 
-        if (event instanceof ContextRefreshedEvent) {
-            onContextRefreshedEvent((ContextRefreshedEvent) event);
-        } else if (event instanceof ContextClosedEvent) {
-            onContextClosedEvent((ContextClosedEvent) event);
-        }
-    }
+		if (event instanceof ContextRefreshedEvent) {
+			// 容器刷新完成
+			onContextRefreshedEvent((ContextRefreshedEvent) event);
+		} else if (event instanceof ContextClosedEvent) {
+			// 容器关闭
+			onContextClosedEvent((ContextClosedEvent) event);
+		}
+	}
 
-    protected void onContextRefreshedEvent(ContextRefreshedEvent event) {
-        ApplicationContext context = event.getApplicationContext();
-        DubboBootstrap bootstrap = loadBootsttrapAsBean(context);
-        if (bootstrap == null) {
-            bootstrap = DubboBootstrap.getInstance();
-        }
-        bootstrap.start();
-    }
+	/**
+	 * 容器刷新完成之后执行。
+	 * <p>
+	 * DubboBootstrap.start();
+	 */
+	protected void onContextRefreshedEvent(ContextRefreshedEvent event) {
+		ApplicationContext context = event.getApplicationContext();
+		DubboBootstrap bootstrap = loadBootsttrapAsBean(context);
+		if (bootstrap == null) {
+			bootstrap = DubboBootstrap.getInstance();
+		}
+		bootstrap.start();
+	}
 
-    protected void onContextClosedEvent(ContextClosedEvent event) {
-        DubboShutdownHook.getDubboShutdownHook().doDestroy();
-    }
+	protected void onContextClosedEvent(ContextClosedEvent event) {
+		DubboShutdownHook.getDubboShutdownHook().doDestroy();
+	}
 
-    private DubboBootstrap loadBootsttrapAsBean(ApplicationContext context) {
-        Map<String, DubboBootstrap> beans = beansOfTypeIncludingAncestors(context, DubboBootstrap.class);
-        if (CollectionUtils.isNotEmptyMap(beans)) {
-            return beans.values().iterator().next();
-        }
-        return null;
-    }
+	private DubboBootstrap loadBootsttrapAsBean(ApplicationContext context) {
+		Map<String, DubboBootstrap> beans = beansOfTypeIncludingAncestors(context, DubboBootstrap.class);
+		if (CollectionUtils.isNotEmptyMap(beans)) {
+			return beans.values().iterator().next();
+		}
+		return null;
+	}
 
-    /**
-     * the specified {@link ApplicationEvent event} must be {@link ApplicationContextEvent} and
-     * its correlative {@link ApplicationContext} must be root
-     *
-     * @param event
-     * @return
-     */
-    private boolean supportsEvent(ApplicationEvent event) {
-        return event instanceof ApplicationContextEvent &&
-                isRootApplicationContext((ApplicationContextEvent) event);
-    }
+	/**
+	 * the specified {@link ApplicationEvent event} must be {@link ApplicationContextEvent} and
+	 * its correlative {@link ApplicationContext} must be root
+	 *
+	 * @param event
+	 * @return
+	 */
+	private boolean supportsEvent(ApplicationEvent event) {
+		return event instanceof ApplicationContextEvent &&
+				isRootApplicationContext((ApplicationContextEvent) event);
+	}
 
 
-    private boolean isRootApplicationContext(ApplicationContextEvent event) {
-        return event.getApplicationContext().getParent() == null;
-    }
+	private boolean isRootApplicationContext(ApplicationContextEvent event) {
+		return event.getApplicationContext().getParent() == null;
+	}
 }
