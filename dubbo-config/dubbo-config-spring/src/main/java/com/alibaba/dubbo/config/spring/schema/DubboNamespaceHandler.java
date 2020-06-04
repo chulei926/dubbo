@@ -30,7 +30,16 @@ import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- * DubboNamespaceHandler
+ * DubboNamespaceHandler：dubbo的命名空间处理器。
+ * <pre>
+ * 解析 dubbo 配置文件中的 各种标签。
+ * 在 dubbo-config-spring/src/main/resources 目录下，有一个 spring.handlers 文件，
+ * 该文件中配置了 ：
+ * http\://dubbo.apache.org/schema/dubbo=org.apache.dubbo.config.spring.schema.DubboNamespaceHandler
+ * http\://code.alibabatech.com/schema/dubbo=org.apache.dubbo.config.spring.schema.DubboNamespaceHandler
+ * 也就是说，http://dubbo.apache.org/schema/dubbo 和 http://code.alibabatech.com/schema/dubbo 命名空间 使用 DubboNamespaceHandler 处理器来解析。
+ *
+ * </pre>
  *
  * @export
  */
