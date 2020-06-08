@@ -35,6 +35,8 @@ import java.util.Map;
 import static com.alibaba.dubbo.config.spring.util.BeanFactoryUtils.addApplicationListener;
 
 /**
+ * ServiceBean 实现了 ApplicationListener 接口，在容器刷新完成（ContextRefreshedEvent）之后 开始执行 服务暴露的 逻辑。
+ * <p>
  * ServiceFactoryBean
  *
  * @export
@@ -90,6 +92,8 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
 			if (logger.isInfoEnabled()) {
 				logger.info("The service ready on spring started. service: " + getInterface());
 			}
+			// 容器刷新完成，已经启动，开始暴露 服务
+			System.out.println(">>>>> 容器刷新完成，开始暴露服务：" + getInterface());
 			export();
 		}
 	}
