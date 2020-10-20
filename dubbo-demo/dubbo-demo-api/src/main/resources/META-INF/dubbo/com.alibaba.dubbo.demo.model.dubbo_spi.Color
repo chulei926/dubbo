@@ -1,0 +1,3 @@
+black=com.alibaba.dubbo.demo.model.dubbo_spi.Black
+blue=com.alibaba.dubbo.demo.model.dubbo_spi.Blue
+red=com.alibaba.dubbo.demo.model.dubbo_spi.Red
